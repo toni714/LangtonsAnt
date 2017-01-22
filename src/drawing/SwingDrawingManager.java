@@ -2,17 +2,31 @@ package drawing;
 
 import java.awt.Graphics;
 
-public class SwingDrawingManager implements DrawingManager{
+import javax.swing.JComponent;
 
-	Graphics g;
+import ant.Ant;
+import main.GC;
+
+public class SwingDrawingManager implements DrawingManager{
+	JComponent surface;
+	public SwingDrawingManager(JComponent surface){
+		this.surface=surface;
+	}
 	
-	public SwingDrawingManager(Object g) {
-		this.g=(Graphics)g;
+	public void paint(Graphics g){
+		System.out.println("Painting");
+		g.drawRect(0, 10, 50, 100);
+		for(Ant ant:GC.ants){
+			drawAnt(g, ant);
+		}
 	}
 	
 	@Override
 	public void draw() {
-		g.drawRect(0, 10, 50, 100);
+		surface.repaint();
+	}
+	public void drawAnt(Graphics g, Ant ant){
+		g.drawRect(GC.fieldPos.x+(ant.pos.x*GC.antSize), GC.fieldPos.y+(ant.pos.y*GC.antSize), GC.antSize, GC.antSize);
 	}
 
 }

@@ -5,7 +5,7 @@ import units.Direction;
 import main.GC;
 
 public class Ant {
-	Vector2D pos;
+	public Vector2D pos;
 	Direction facing;
 	
 	public Ant(int x, int y){
