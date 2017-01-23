@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import ant.Ant;
@@ -25,6 +26,9 @@ public class GameThread extends Thread{
 		while(running){
 			update();
 			drawingManager.draw();
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {}
 		}
 	}
 	
@@ -33,18 +37,20 @@ public class GameThread extends Thread{
 	}
 	
 	void update(){
-		
+		for(Ant ant:GC.ants){
+			ant.update();
+		}
 	}
 	
 	void init(){
 		GC.rules=GC.DEFAULT_RULES;
 
 		//create field
-		GC.field=new Field(10, 10, 580, 580, 10);
+		GC.field=new Field(10, 10, 580, 580, 4);
 		
 		//create ants
 		GC.ants=new ArrayList<Ant>();
-		
+		GC.ants.add(new Ant(GC.field.xSquares/2, GC.field.ySquares/2, Color.CYAN));
 	}
 
 }

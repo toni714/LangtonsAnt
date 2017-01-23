@@ -8,8 +8,8 @@ public class Field {
 	int width;
 	int height;
 	public int sqSize;
-	int xSquares;
-	int ySquares;
+	public int xSquares;
+	public int ySquares;
 	public int[][] colors;
 	
 	public Field(int x, int y, int width, int height, int sqSize) {

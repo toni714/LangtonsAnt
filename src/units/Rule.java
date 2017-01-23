@@ -6,12 +6,12 @@ public enum Rule {
 	L {
 		@Override
 		public void action(Ant ant) {
-			//TODO
+			ant.rotateLeft();
 		}
 	},
 	R{
 		public void action(Ant ant){
-			//TODO
+			ant.rotateRight();
 		}
 	};
 	public abstract void action(Ant ant);
