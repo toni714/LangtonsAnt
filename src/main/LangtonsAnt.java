@@ -1,40 +1,39 @@
 package main;
 
-import javax.swing.JComponent;
+import java.awt.Color;
 
 import drawing.DrawingEngine;
 import drawing.DrawingManager;
 import drawing.SwingDrawingManager;
+import graphics.GraphicsManager;
+import graphics.SwingGraphicsManager;
 
 public class LangtonsAnt {
-	DrawingManager drawingManager;
+	public DrawingManager drawingManager;
+	GraphicsManager graphicsManager;
 	GameThread thread;
-	
-	public LangtonsAnt(DrawingEngine engine){
-		switch(engine){
+
+	public LangtonsAnt(DrawingEngine engine) {
+		switch (engine) {
 		case SWING:
 			System.out.println("Seting drawing Mode to Swing");
+			graphicsManager = new SwingGraphicsManager(this);
+			graphicsManager.createWindow("Langtons Ant", 800, 600, Color.WHITE);
+			drawingManager = new SwingDrawingManager(((SwingGraphicsManager) graphicsManager).getSurface());
 			break;
 		default:
 			System.out.println("Unknown Graphics Engine");
 			break;
 		}
-	}
-	
-	public void init(JComponent surface){
-		drawingManager=new SwingDrawingManager(surface);
-		thread=new GameThread(drawingManager);
-	}
-	
-	public DrawingManager getDrawingManager(){
-		return drawingManager;
+		thread = new GameThread(drawingManager);
 	}
 
 	public void sendCloseRequest() {
 		thread.setRunning(false);
 		try {
 			thread.join();
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+		}
 		System.out.println("Game Thread ended");
 	}
 
