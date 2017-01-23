@@ -1,5 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+
+import ant.Ant;
 import drawing.DrawingManager;
 
 public class GameThread extends Thread{
@@ -14,8 +17,9 @@ public class GameThread extends Thread{
 	@Override
 	public void run() {
 		running=true;
-		//init();
-		System.out.println("In Game Thread");
+		System.out.println("Initializing Game");
+		init();
+		System.out.println("Entering Gameloop");
 		while(running){
 			//update();
 			drawingManager.draw();
@@ -26,9 +30,15 @@ public class GameThread extends Thread{
 		this.running=running;
 	}
 	
-	/*
-	public void stop() {
-		running=false;
-	}*/
+	void init(){
+		GC.rules=GC.DEFAULT_RULES;
+
+		//create field
+		//GC.field=
+		
+		//create ants
+		GC.ants=new ArrayList<Ant>();
+		
+	}
 
 }
