@@ -15,4 +15,5 @@ public enum Rule {
 		}
 	};
 	public abstract void action(Ant ant);
+	//public abstract Color getColor();
 }

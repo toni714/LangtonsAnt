@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 
 import ant.Ant;
+import components.Field;
 import drawing.DrawingManager;
 
 public class GameThread extends Thread{
@@ -19,9 +20,10 @@ public class GameThread extends Thread{
 		running=true;
 		System.out.println("Initializing Game");
 		init();
+		GC.initDone=true;
 		System.out.println("Entering Gameloop");
 		while(running){
-			//update();
+			update();
 			drawingManager.draw();
 		}
 	}
@@ -30,11 +32,15 @@ public class GameThread extends Thread{
 		this.running=running;
 	}
 	
+	void update(){
+		
+	}
+	
 	void init(){
 		GC.rules=GC.DEFAULT_RULES;
 
 		//create field
-		//GC.field=
+		GC.field=new Field(10, 10, 580, 580, 10);
 		
 		//create ants
 		GC.ants=new ArrayList<Ant>();

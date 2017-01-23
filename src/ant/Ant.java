@@ -14,7 +14,7 @@ public class Ant {
 	}
 
 	public void update(){
-		GC.rules[GC.field[pos.x][pos.y]].action(this);
+		GC.rules[GC.field.colors[pos.x][pos.y]].action(this);
 		colorLeavingTile();
 		step();
 	}
@@ -40,6 +40,6 @@ public class Ant {
 	}
 	
 	public void colorLeavingTile(){
-		GC.increment(pos.x, pos.y);
+		GC.field.increment(pos.x, pos.y);
 	}
 }
