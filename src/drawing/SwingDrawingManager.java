@@ -1,8 +1,6 @@
 package drawing;
 
-import java.awt.Color;
 import java.awt.Graphics;
-//import java.util.Random;
 
 import javax.swing.JComponent;
 
@@ -30,17 +28,9 @@ public class SwingDrawingManager implements DrawingManager {
 	}
 
 	public void drawField(Graphics g) {
-
-		// Random rnd = new Random();
 		for (int x = 0; x < GC.field.colors.length; x++) {
 			for (int y = 0; y < GC.field.colors[x].length; y++) {
-				// g.setColor(Color.getHSBColor(360 * (GC.field.colors[x][y]
-				// / (float) GC.rules.length), 1, 1));
-				float percent = 1 - (GC.field.colors[x][y] / (float) (GC.rules.length-1));
-				g.setColor(new Color(percent, percent, percent));
-
-				// g.setColor(new Color(rnd.nextInt(255), rnd.nextInt(255),
-				// rnd.nextInt(255)));
+				g.setColor(GC.colorMap[GC.field.colors[x][y]]);
 				g.fillRect(GC.field.pos.x + (x * GC.field.sqSize), GC.field.pos.y + (y * GC.field.sqSize),
 						GC.field.sqSize, GC.field.sqSize);
 			}

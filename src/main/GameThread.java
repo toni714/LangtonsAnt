@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 import ant.Ant;
 import components.Field;
@@ -44,7 +45,11 @@ public class GameThread extends Thread{
 	
 	void init(){
 		GC.rules=GC.DEFAULT_RULES;
-
+		GC.colorMap=new Color[GC.rules.length];
+		Random rnd=new Random(System.currentTimeMillis());
+		for(int i=0;i<GC.colorMap.length;i++){
+			GC.colorMap[i]=new Color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255));
+		}
 		//create field
 		GC.field=new Field(10, 10, 580, 580, 4);
 		
