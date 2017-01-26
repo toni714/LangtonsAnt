@@ -11,27 +11,37 @@ import graphics.SwingGraphicsManager;
 public class LangtonsAnt {
 	public DrawingManager drawingManager;
 	GraphicsManager graphicsManager;
-	GameThread thread;
+	GameThread gameThread;
 
 	public LangtonsAnt(DrawingEngine engine) {
 		switch (engine) {
 		case SWING:
 			System.out.println("Seting drawing Mode to Swing");
 			graphicsManager = new SwingGraphicsManager(this);
-			graphicsManager.createWindow("Langtons Ant", 800, 600, Color.WHITE);
+			graphicsManager.init("Langtons Ant", 800, 600, Color.WHITE);
 			drawingManager = new SwingDrawingManager(((SwingGraphicsManager) graphicsManager).getSurface());
 			break;
 		default:
 			System.out.println("Unknown Graphics Engine");
 			break;
 		}
-		thread = new GameThread(drawingManager);
+		gameThread = new GameThread(drawingManager);
+	}
+	
+	public void handleQuitRequest(){
+		gameThread.pauseSim();
+		if (graphicsManager.createYNDialogue("Do You really want to Quit?", "Quit?") == true) {
+			sendCloseRequest();
+			graphicsManager.closeWindow();
+		}else{
+			gameThread.resumeSim();
+		}
 	}
 
-	public void sendCloseRequest() {
-		thread.setRunning(false);
+	private void sendCloseRequest() {
+		gameThread.setRunning(false);
 		try {
-			thread.join();
+			gameThread.join();
 		} catch (InterruptedException e) {
 		}
 		System.out.println("Game Thread ended");
@@ -39,6 +49,6 @@ public class LangtonsAnt {
 
 	public void start() {
 		System.out.println("Starting Game Tread");
-		thread.start();
+		gameThread.start();
 	}
 }

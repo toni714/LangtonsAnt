@@ -9,7 +9,6 @@ import units.Direction;
 import units.Rule;
 
 public class GC {
-
 	public static final Direction DEFAULT_DIRECTION = Direction.UP;
 	public static final Rule[] DEFAULT_RULES = {Rule.L, Rule.R, Rule.L, Rule.R,Rule.L, Rule.R, Rule.L, Rule.R};
 	public static Rule[] rules;
@@ -19,6 +18,4 @@ public class GC {
 	public static int antSize;
 	public static boolean initDone=false;
 	
-	
-
 }
