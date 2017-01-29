@@ -1,48 +1,44 @@
 package drawing;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
+import main.LangtonsAnt;
 
-import ant.Ant;
-import main.GC;
-
-public class SwingDrawingManager implements DrawingManager {
+public class SwingDrawingManager implements EngineDrawingManager {
+	LangtonsAnt controler;
 	JComponent surface;
+	Graphics currentGraphics;
 
-	public SwingDrawingManager(JComponent surface) {
+	public SwingDrawingManager(LangtonsAnt controler, JComponent surface) {
+		this.controler = controler;
 		this.surface = surface;
 	}
 
 	@Override
 	public void draw() {
+		// Issue the Drawing
+		// Indirect handover to Game via paint(g);
 		surface.repaint();
 	}
 
 	public void paint(Graphics g) {
-		// g.drawRect(0, 10, 50, 100);
-		if (GC.initDone) {
-			drawField(g);
-			drawAnts(g);
-		}
+		currentGraphics = g;
+		// Handover to Game
+		controler.gameDrawingManager.draw();
 	}
 
-	public void drawField(Graphics g) {
-		for (int x = 0; x < GC.field.colors.length; x++) {
-			for (int y = 0; y < GC.field.colors[x].length; y++) {
-				g.setColor(GC.colorMap[GC.field.colors[x][y]]);
-				g.fillRect(GC.field.pos.x + (x * GC.field.sqSize), GC.field.pos.y + (y * GC.field.sqSize),
-						GC.field.sqSize, GC.field.sqSize);
-			}
-		}
+	
+	@Override
+	public void fillRect(int x, int y, int width, int height, Color color) {
+		currentGraphics.setColor(color);
+		currentGraphics.fillRect(x, y, width, height);
 	}
 
-	public void drawAnts(Graphics g) {
-		for (Ant ant : GC.ants) {
-			g.setColor(ant.color);
-			g.drawRect(GC.field.pos.x + (ant.pos.x * GC.field.sqSize), GC.field.pos.y + (ant.pos.y * GC.field.sqSize),
-					GC.field.sqSize, GC.field.sqSize);
-		}
+	@Override
+	public void drawRect(int x, int y, int width, int height, Color color) {
+		currentGraphics.setColor(color);
+		currentGraphics.drawRect(x, y, width, height);
 	}
-
 }

@@ -6,15 +6,15 @@ import java.util.Random;
 
 import ant.Ant;
 import components.Field;
-import drawing.DrawingManager;
+import drawing.EngineDrawingManager;
 
 public class GameThread extends Thread {
 
 	boolean running;
 	boolean paused;
-	DrawingManager drawingManager;
+	EngineDrawingManager drawingManager;
 
-	public GameThread(DrawingManager drawingManager) {
+	public GameThread(EngineDrawingManager drawingManager) {
 		this.drawingManager = drawingManager;
 	}
 
@@ -28,7 +28,9 @@ public class GameThread extends Thread {
 		System.out.println("Entering Gameloop");
 		while (running) {
 			if (!paused) {
-				update();
+				for (int i = 0; i < 5000000; i++) {
+					update();
+				}
 				drawingManager.draw();
 			}
 			try {
@@ -50,14 +52,27 @@ public class GameThread extends Thread {
 	}
 
 	void init() {
+		// initialize rules
 		GC.rules = GC.DEFAULT_RULES;
-		GC.colorMap = new Color[GC.rules.length];
-		Random rnd = new Random(System.currentTimeMillis());
-		for (int i = 0; i < GC.colorMap.length; i++) {
-			GC.colorMap[i] = new Color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255));
+
+		// initialize colors
+		GC.colorMap = new Color[GC.rules.length+1];
+		// Generate Grayscale Colors
+		for (int i = 0; i < GC.rules.length+1; i++) {
+			float percentile = 1 - (i / (float) (GC.rules.length));
+			GC.colorMap[i] = new Color(percentile, percentile, percentile);
 		}
+		// Generate random Colors
+		/*
+		 * Random rnd = new Random(System.currentTimeMillis()); for (int i = 0;
+		 * i < GC.colorMap.length; i++) { GC.colorMap[i] = new
+		 * Color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)); }
+		 */
+
 		// create field
-		GC.field = new Field(10, 10, 580, 580, 4);
+		GC.fieldBuffer = 10;
+		GC.field = new Field(GC.fieldBuffer, GC.fieldBuffer, GC.surfaceSize.x - (2 * GC.fieldBuffer),
+				GC.surfaceSize.y - (4 * GC.fieldBuffer), 4);
 
 		// create ants
 		GC.ants = new ArrayList<Ant>();
